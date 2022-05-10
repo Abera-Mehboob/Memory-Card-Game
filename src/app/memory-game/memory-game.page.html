@@ -1,0 +1,20 @@
+<ion-content class="body">
+  <div align="center">
+    <h2>Match all cards to Win!</h2>
+    <h1>Moves: <span>{{move}}</span></h1>
+  </div>
+  <div class="container">
+    <ion-row size="8">
+      <ion-col size="3" *ngFor="let c of cardsArray; let i= index">
+        <div class="board-row" #memoryCard>
+          <img class="card" *ngIf="c.pos != selectCard1pos && c.pos != selectCard2pos && c.flagValue > -1"
+            (click)="selectCard(c.pos,c.flagValue,i)" src="../../assets/img/cards/background.png" />
+          <img class="card" *ngIf="c.pos == selectCard1pos && c.flagValue > -1" [src]="imageDir + images[c.flagValue] + '.png'" />
+          <img class="card" *ngIf="c.pos == selectCard2pos && c.flagValue > -1" [src]="imageDir + images[c.flagValue] + '.png'" />
+          <img class="card" [src]="imageDir + images[c.cardValue] + '.png'" #flippedCard
+            *ngIf="historyArray.includes(c.cardValue) " />
+        </div>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

@@ -1,0 +1,63 @@
+.body {
+  font: 16px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+}
+.container {
+  width: 800px;
+  margin: 0 auto;
+}
+.board-row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.status {
+  margin-bottom: 10px;
+}
+h1 span {
+  font-weight: 700;
+}
+.card {
+  background: #fff;
+  border: 1px solid #ccc;
+  float: left;
+  font-size: 32px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 115px;
+  margin-right: 10px;
+  margin-top: 10px;
+  padding: 0;
+  text-align: center;
+  width: 85px;
+  cursor: pointer;
+}
+.card:focus {
+  outline: none;
+}
+
+.kbd-navigation .card:focus {
+  background: #ddd;
+}
+.game {
+  display: flex;
+  flex-direction: row;
+}
+.fa-star {
+  color: goldenrod;
+}
+.fa-car {
+  color: steelblue;
+}
+.fa-leaf {
+  color: olivedrab;
+}
+.fa-tag {
+  color: mediumpurple;
+}
+.fa-birthday-cake {
+  color: hotpink;
+}
+.fa-key {
+  color: #666;
+}

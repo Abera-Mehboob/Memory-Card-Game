@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <img
+      align="center"
+      class="memory-game-icon"
+      src="../../assets/memory-game.png"
+    />
+    <h1 align="center">Memory Game</h1>
+    <ion-button (click)="dismiss()" routerLink="/home" slot="end">
+      <ion-icon slot="icon-only" name="close" end></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-row class="ion-align-items-center">
+    <ion-col size="12" class="ion-text-center">
+      <h1 align="center">Congrats You Have Won The Game!</h1>
+      <h2 align="center">Total Moves: {{moves}}</h2>
+      <ion-button align="center" routerLink="/home" (click)="dismiss()">
+        Play Again
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>
