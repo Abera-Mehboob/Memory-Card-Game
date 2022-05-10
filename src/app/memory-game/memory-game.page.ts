@@ -30,6 +30,7 @@ export class MemoryGamePage implements OnInit {
   public flipped = [];
   public flipped2 = [];
   public historyArray = [];
+  private lockMove = false;
   constructor(private mdlCtrl: ModalController) {}
   ngOnInit() {
     this.populateCards();
@@ -43,18 +44,14 @@ export class MemoryGamePage implements OnInit {
   //Generate card value with two cards having the same value.
   populateCards() {
     this.cardsArray = [];
-    var x = 0;
-    var y = 0;
-    for (var i = 0; i < this.cardsTotal; i++) {
+    let y = 0;
+    for (let i = 0; i < this.cardsTotal; i+=2) {
       this.cardsArray.push({ pos: i, flagValue: y, cardValue: y });
-      if (x == 0) {
-        x = 1;
-      } else {
-        x = 0;
-        y++;
-      }
+      this.cardsArray.push({ pos: i+1, flagValue: y, cardValue: y });
+      y++;
     }
   }
+
 
   //Opens Popup screen when user wins
   openModal = async () => {
@@ -74,7 +71,7 @@ export class MemoryGamePage implements OnInit {
 
   //Shuffle cards for every new game
   shuffle(a: any) {
-    var j, x, i;
+    let j, x, i;
     for (i = a.length; i; i--) {
       j = Math.floor(Math.random() * i);
       x = a[i - 1];
@@ -85,22 +82,24 @@ export class MemoryGamePage implements OnInit {
 
   //check if the cards are matching or not, if cards matche they remain face up else they flips back
   selectCard(pos, flagValue, i) {
-    this.move++;
-    var actOne = false;
-    if (this.selectCard1pos > -1 && this.selectCard2pos == -1) {
-      this.selectCard2pos = pos;
-      this.selectCard2val = flagValue;
-      actOne = true;
+    if(this.lockMove){
+      return false;
     }
-    if (this.selectCard1pos == -1 && !actOne) {
+    this.move++;
+    if (this.selectCard1pos === -1) {
       this.selectCard1pos = pos;
       this.selectCard1val = flagValue;
       this.selectOldPositon = i;
+      return true;
+    } else if (this.selectCard2pos === -1) {
+      this.selectCard2pos = pos;
+      this.selectCard2val = flagValue;
+      this.lockMove =true;
     }
 
-    if (actOne && this.selectCard1pos > -1 && this.selectCard2pos > -1) {
+    if (this.selectCard1pos > -1 && this.selectCard2pos > -1) {
       setTimeout(() => {
-        if (this.selectCard1val == this.selectCard2val) {
+        if (this.selectCard1val === this.selectCard2val) {
           this.flip++;
           this.flipped = this.cardsArray.splice(this.selectOldPositon, 1, {
             pos: this.selectOldPositon,
@@ -114,12 +113,13 @@ export class MemoryGamePage implements OnInit {
           });
           this.historyArray.push(this.flipped[0].cardValue);
           this.resetSelects();
-          if (this.flip == 6) {
+          if (this.flip === this.cardsTotal/2) {
             this.openModal();
           }
         } else {
           this.resetSelects();
         }
+        this.lockMove =false;
       }, 1000);
     }
   }
